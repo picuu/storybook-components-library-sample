@@ -1,54 +1,43 @@
-# React + TypeScript + Vite
+# Storybook components library sample
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a sample project to demonstrate how to create a components library using Storybook, Vite, React and TypeScript.
 
-Currently, two official plugins are available:
+## Part one: Create project and publish it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Step 1: Create a Vite app
 
-## Expanding the ESLint configuration
+Create a new Vite project and select React and TypeScript + SWC.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+yarn create vite
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Step 2: Configure the project
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+You will probably need to install `@types/node` as dev dependency.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Setup the project for [library mode](https://vite.dev/guide/build.html#library-mode).
+
+### Step 3: Create your first component
+
+Create a new folder `/lib` in the root of your project and there create your components. The important thing is that you have to export all your components in the `/lib/main.ts` file.
+
+This folder name and file name are just a convention, you can name them as you want. If you rename them, you will need to update the `vite.config` file.
+
+### Step 4: Configure TypeScript and Vite aliases (optional)
+
+Install `vite-tsconfig-pahts` and import it as a plugin in your `vite.config` file.
+
+For now on, all alias you create in your `tsconfig.json` file will be available in your Vite project. The `vite-tsconfig-paths` plugin will take care of that. Otherwise, you would need to create the same aliases in your `vite.config` file, manually.
+
+All files in `/src` could be deleted.
+
+### Step 5: Configure the `package.json` file
+
+Add the `files`, `main`, `module` and `export` fields to the `package.json` file and also add the `prebuild` and `prepublish` scripts.
+
+### Step 6: Publish the package
+
+Before publishing the package, you can test it locally by running the `yarn build` command and then the `yarn link` command.
+
+If your projects compiles correctly with `yarn build`, you can publish it to npm. Just run the `yarn publish` command.
