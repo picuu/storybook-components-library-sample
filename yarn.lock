@@ -1192,14 +1192,6 @@ source-map-js@^1.2.1:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"
   integrity sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==
 
-storybook-components-library-sample@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/storybook-components-library-sample/-/storybook-components-library-sample-0.1.1.tgz#74856701065f0532f1c1f49519e22f3d7b7b1799"
-  integrity sha512-W5Ud/grzHzwSP+eMK9MGCqhIlFs/jY7PIzvL5SRm0ks5qfAoTwJn0fE6DXaLMP7LtXqZisA9WBC7ULKqbs5Wkw==
-  dependencies:
-    react "^19.0.0"
-    react-dom "^19.0.0"
-
 strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
