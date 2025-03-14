@@ -1,6 +1,6 @@
 {
   "name": "storybook-components-library-sample",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "files": [
     "dist"
@@ -38,6 +38,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.3",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "packageManager": "yarn@1.22.22"
