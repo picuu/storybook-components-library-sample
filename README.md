@@ -140,3 +140,98 @@ Run the `yarn build` command to generate the types.
 ### Step 3: Publish the package
 
 Run the `yarn publish` command to publish the package with the types.
+
+## Part three: Add Storybook
+
+See the complete process in Antonin Januska's video [How To Build a React UI Library ep2: Setting up Storybook and TailwindCSS support](https://youtu.be/5zCXD7QscGQ). The Storybook part starts at 6:30 aprox.
+
+### Step 1: Install Storybook
+
+Install [Storybook for Vite](https://storybook.js.org/blog/storybook-for-vite/) with the following command:
+
+```bash
+npx sb init --builder @storybook/builder-vite
+```
+
+This will create a `stories` folder with sample code and a `.storybook` folder with the Storybook configuration.
+Also, Storybook created some scripts in the `package.json` for us to run it easily.
+
+I recommend disabling the Storybook telemetry by adding `core: { disableTelemetry: true }` in the StorybookConfig file (`./.storybook/main.ts`).
+
+Inside the `stories` folder you can add components, stories (which are the Storybook "tests") and even MDX files to document your components.
+
+### Step 2: Config Storybook
+
+To make Storybook work with our project, let's modify the `.storybook/main.ts` file so we replace the paths to the `stories` folder with the `lib` folder.
+With this change, Storybook will look for components and stories in the `lib` folder.
+
+```diff
+{
+  "stories": [
+-   "../stories/**/*.mdx",
+-   "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
++   "../lib/**/*.mdx",
++   "../lib/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+  ]
+}
+```
+
+### Step 3: Create your first stories
+
+You can read more about how to write stories in the [Storybook documentation](https://storybook.js.org/docs/get-started/setup).
+
+#### How to organize your stories
+
+Go into your `lib` folder and create a new file with the name of your component and the `.stories.tsx` extension.
+
+I recommend organizing your stories in the same way you organize your components. For example, if you have a `Button` component, you can create a `Button` folder and inside it, create the `Button.stories.tsx` file. Something like that:
+
+```bash
+📁 storybook-components-library-sample
+└─ 📁 lib
+   ├─ 📁 components
+   │  ├─ 📁 Button
+   │  │  ├─ 📄 Button.stories.tsx
+   │  │  ├─ 📄 Button.tsx
+   │  │  └─ 📄 index.ts
+   │  │
+   │  └─ 📄 index.ts
+   │
+   └─ 📄 main.ts
+```
+
+#### First stories
+
+Here is an example of a `.stories.tsx` file:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react'
+
+import YourComponent from './YourComponent'
+
+const meta: Meta<typeof YourComponent> = {
+  component: YourComponent
+}
+
+export default meta
+
+type Story = StoryObj<typeof YourComponent>
+
+export const Default: Story = {
+  args: {
+    children: 'Click me!'
+  }
+}
+
+export const Emoji: Story = {
+  args: {
+    children: '🤠'
+  }
+}
+```
+
+With just that you can create different stories for your component. Each story is like a test case for your component.
+
+Storybook will render your component with the props you pass in the `args` object.
+
+Additionaly, with the Storybook GUI you can change the args of the stories and modify or create new ones. Super easy!
