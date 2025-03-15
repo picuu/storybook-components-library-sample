@@ -53,7 +53,21 @@ Create a new folder `/lib` in the root of your project and there create your com
 
 This folder name and file name are just a convention (following the Vite documentation), you can name them as you want. If you rename them, you will need to update the `vite.config` file.
 
-### Step 4: Configure TypeScript and Vite aliases
+### Step 4: Install styling tools
+
+You can skip this step for now (I actually implemented after installing Storybook), but it makes the most sense to install the styling tools while creating the components.
+
+I am going to use [styled-components](https://styled-components.com/), but Storybook has support for TailwindCSS, Emotion and other styling tools.
+
+You just need to install de dependency, and create your styles in the same way you would do in a React project.
+
+```bash
+yarn add styled-components
+```
+
+We may need to add some more config later in order to be able to test styled components with Storybook.
+
+### Step 5: Configure TypeScript and Vite aliases
 
 Add the folder `/lib` to the `include` field in the `tsconfig.json` file.
 This is necessary for the TypeScript compiler to find the files in the `/lib` folder.
@@ -73,7 +87,7 @@ All files in `/src` could be deleted. Make sure to remove the it from the `inclu
 
   For now on, all alias you create in your `tsconfig.json` file will be available in your Vite project. The `vite-tsconfig-paths` plugin will take care of that. Otherwise, you would need to create the same aliases in your `vite.config` file, manually.
 
-### Step 5: Configure the `package.json` file
+### Step 6: Configure the `package.json` file
 
 Add the `files`, `main`, `module` and `export` fields to the `package.json` file and also add the `prebuild` and `prepublish` scripts.
 
@@ -101,7 +115,7 @@ Add the `files`, `main`, `module` and `export` fields to the `package.json` file
 }
 ```
 
-### Step 6: Publish the package
+### Step 7: Publish the package
 
 Before publishing the package, you can test it locally by running the `yarn build` command and then the [yarn link command](https://classic.yarnpkg.com/lang/en/docs/cli/link/#toc-yarn-link-package). See the link for more information on how to use `yarn link`.
 

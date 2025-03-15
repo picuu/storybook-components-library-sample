@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { ButtonStyled } from "./Button.styled"
 
 interface ButtonProps {
   children: ReactNode
@@ -6,7 +7,7 @@ interface ButtonProps {
 
 
 const Button = ({ children }: ButtonProps) => {
-  return <button>{children}</button>
+  return <ButtonStyled>{children}</ButtonStyled>
 }
 
 export default Button
