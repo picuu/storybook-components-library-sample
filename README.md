@@ -1,8 +1,15 @@
 # Storybook components library sample
 
-This is a sample project to demonstrate how to create a components library using Storybook, Vite, React and TypeScript.
+This is a sample project to demonstrate how to create a components library using Storybook, Vite, React, TypeScript, styled-components and Jest or Vitest.
 
-## Part one: Create project and publish it
+> [!NOTE]
+> This project is based on Antonin Januska's video series [Build A React UI Library](https://youtube.com/playlist?list=PLcfAVClOb1BiA6oIfHQ6Am3lpWzOmMO6J&si=uT5k1N51Rr3XSNvi).
+
+> [!IMPORTANT]
+> When I refer to the `tsconfig.json` file, I am actually referring to the `tsconfig.app.json` file, as Vite changed the way to configure TypeScript in its projects.
+> Now Vite has two `tsconfig` files, `tsconfig.node.json` and `tsconfig.app.json`, so the actual `tsconfig.json` only references the other two
+
+## ⚙ Part one: Create project and publish it
 
 See the complete process in Antonin Januska's video [How To Build a React UI Library ep1: Setting up the build system and NPM publishing](https://youtu.be/btVwaMWuhtc).
 
@@ -121,7 +128,7 @@ Before publishing the package, you can test it locally by running the `yarn buil
 
 If your projects compiles correctly with `yarn build`, you can publish it to npm. Just run the `yarn publish` command. You should have created an account on [NPM](https://www.npmjs.com/) by now.
 
-## Part two: Export types
+## 📜 Part two: Export types
 
 See the complete process in Antonin Januska's video [How To Build a React UI Library ep3: Exporting Styles and Types](https://youtu.be/T3NR6dpMZZY). The types part starts at 7:56 aprox.
 
@@ -129,7 +136,7 @@ See the complete process in Antonin Januska's video [How To Build a React UI Lib
 
 Install the [vite-plugin-dts](https://www.npmjs.com/package/vite-plugin-dts) plugin as dev dependency.
 
-Add the plugin to the `vite.config` file with the option `{ rollupTypes: true }` as this will export all files in one declaration file.
+Add the plugin to the `vite.config` file with the option `{ rollupTypes: true }` as this will export all files in one declaration file. Also add the `exclude` option with the values you'll see below.
 
 If your `tsconfig.json` file is named differently, you will need to add this option as well to the `dts` plugin `tsconfigPath: './tsconfig.app.json'`.
 
@@ -142,7 +149,8 @@ plugins: [
   tsconfigPaths(),
   dts({
     rollupTypes: true,
-    tsconfigPath: "./tsconfig.app.json",
+    tsconfigPath: './tsconfig.app.json',
+    exclude: ['**/*.stories.tsx', '**/*.test.tsx', '**/*.spec.ts']
   })
 ],
 ```
@@ -155,7 +163,7 @@ Run the `yarn build` command to generate the types.
 
 Run the `yarn publish` command to publish the package with the types.
 
-## Part three: Add Storybook
+## 📕 Part three: Add Storybook
 
 See the complete process in Antonin Januska's video [How To Build a React UI Library ep2: Setting up Storybook and TailwindCSS support](https://youtu.be/5zCXD7QscGQ). The Storybook part starts at 6:30 aprox.
 
@@ -249,3 +257,60 @@ With just that you can create different stories for your component. Each story i
 Storybook will render your component with the props you pass in the `args` object.
 
 Additionaly, with the Storybook GUI you can change the args of the stories and modify or create new ones. Super easy!
+
+## 🖌 Part five: Customize Storybook
+
+This part was extracted from Dev Dive In's video [How to Setup Up a Component Library with React, Vite, Storybook and Tailwind](https://youtu.be/3OHZmM0ihIQ). The Storybook customization part starts at 15:02 aprox.
+
+You can see more info about Storybook theming at its [official documentation](https://storybook.js.org/docs/configure/user-interface/theming).
+
+### Step 1: Create `Theme.ts`
+
+Create a new file `Theme.ts` in the `.storybook` folder and configure it as you like.
+
+```ts
+export default create({
+  base: 'dark',
+  brandTitle: 'Flight Search Components',
+  brandUrl: 'https://travelport.com/',
+  brandImage: '', // I recommend using travelport sand logo from https://travelport.gettyimages.com/travelport
+  brandTarget: '_blank',
+
+  colorSecondary: '#4E6659' // olive
+})
+```
+
+### Step 2: Add the theme to the configuration
+
+Create a new file `manager.ts` in the `.storybook` folder with the following content:
+
+```ts
+import { addons } from '@storybook/manager-api'
+import theme from './Theme'
+
+addons.setConfig({
+  theme
+})
+```
+
+---
+
+<!--
+userEvent vs fireEvent in testing
+userEvent simulates a real flow of events, like a user would do. Is slower but more reliable
+fireEvent is more like a low level API. Is faster but less reliable
+
+customize Storybook
+https://storybook.js.org/docs/configure/user-interface/theming
+
+add autodocs
+https://storybook.js.org/docs/writing-docs/autodocs#set-up-automated-documentation
+
+change dependencies to peerDependencies in package.json ??
+
+insert "types" in package.json
+
+personalize Storybook
+
+we use import type so the compilers reomve the imports from the final bundle and we dont import innecesary modules
+-->
