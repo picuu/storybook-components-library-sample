@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
@@ -11,7 +12,8 @@ export default defineConfig({
     tsconfigPaths(),
     dts({
       rollupTypes: true,
-      tsconfigPath: "./tsconfig.app.json",
+      tsconfigPath: './tsconfig.app.json',
+      exclude: ['**/*.stories.tsx', '**/*.test.tsx', '**/*.spec.ts']
     })
   ],
   build: {
@@ -34,5 +36,11 @@ export default defineConfig({
         }
       }
     }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './lib/test/setup.ts',
+    css: true // enable to be able to test css but it will affect the performance (slow down the test)
   }
 })
