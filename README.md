@@ -249,3 +249,109 @@ With just that you can create different stories for your component. Each story i
 Storybook will render your component with the props you pass in the `args` object.
 
 Additionaly, with the Storybook GUI you can change the args of the stories and modify or create new ones. Super easy!
+
+## 🧪 Part four: Add testing
+
+See the complete process in Antonin Januska's video [How To Build a React UI Library ep4: Adding Testing](https://youtu.be/1Q6Q6J9Z9ZQ).
+
+The Storybook setup install these dependencies for testing:
+
+- [ ] "@storybook/experimental-addon-test": "^8.6.5"
+- [ ] "@vitest/browser": "^3.0.8"
+- [ ] "@vitest/coverage-v8": "^3.0.8"
+- [x] "vitest": "^3.0.8"
+
+I am going to show you how to config Jest and how to config Vitest. Let's start with Vitest.
+
+In fact, Vitest is compatible with Jest, so migrating from it is straightforward. The advantage of using Vitest here is that it is already configured in the project as it reuses Vite's config and plugins.
+
+> You can see more about **Vitest** in the [official documentation](https://vitest.dev/guide/).
+>
+> You can see more about **Jest** in the [official documentation](https://jestjs.io/docs/getting-started).
+
+### Step 1 (Vitest): Install testing tools
+
+Install the `vitest` package as dev dependency.
+
+```bash
+yarn add --dev vitest
+```
+
+### Step 2 (Vitest): Configure testing scripts
+
+Add the testing scripts to your `package.json` file.
+
+```diff
+{
+  "scripts": {
++   "test": "vitest",
++   "test:coverage": "vitest run --coverage",
+  }
+}
+```
+
+### Step 3 (Vitest): Install the testing library
+
+With only Vitest we can unit test utilties and so, but to actually test our components and, basically, React, we need to instal the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
+
+```bash
+yarn add --dev jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event
+```
+
+### Step 4 (Vitest): Configure the project with the testing tool
+
+Create a `/lib/test/setup.ts` file and add import the module `@testing-library/jest-dom`. This way you will have the Jest DOM matchers available in all your tests (if you follow the steps below).
+
+```ts
+import '@testing-library/jest-dom'
+```
+
+Update the `vite.config` file to include the Vitest configuration.
+
+First you will need to import the Vitest types adding this line at the top of the file `/// <reference types="vitest" />`.
+
+And then you will be able to add the test option.
+
+```diff
+export default defineConfig({
+  plugins: [...],
+  build: {...},
++ test: {
++   globals: true,
++   environment: 'jsdom',
++   setupFiles: './lib/test/setup.ts',
++   css: true
++ }
+})
+```
+
+The `css` option will allow you to test css but will affect the test performance. It depends on you to enable it or not.
+
+Next, update the `tsconfig.json` file to include the Vitest types. This way you won't have to import them manually on every test.
+
+```diff
+{
+  "compilerOptions": {
++   "types": ["vite/globals"]
+  }
+}
+```
+
+### Step 5 (Vitest): Create your first test
+
+Inside your component folder, create a new folder named `__tests__` and create inside a file with the name of your component and the `.test.tsx` or `.spec.tsx` extension.
+
+Here is an example of a test file:
+
+```tsx
+import { render } from '@testing-library/react'
+import Button from '../Button'
+
+describe(`Component: ${Button.name}`, () => {
+  test('should render', () => {
+    const { container } = render(<Button>Click me!</Button>)
+    expect(container).toBeInTheDocument()
+    expect(container).toMatchInlineSnapshot()
+  })
+})
+```
